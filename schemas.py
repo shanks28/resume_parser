@@ -1,6 +1,7 @@
 from typing import List
 from pydantic import BaseModel
-
+from fastapi import File,UploadFile
+from typing import Optional
 class Resume(BaseModel): # uploaded by user
     file_name: str
     parsed_text:str
@@ -20,3 +21,4 @@ class MatchResponse(BaseModel):
     job_id:str
     match_score: float
     suggestions:List[str]
+
