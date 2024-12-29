@@ -3,7 +3,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 import os
 from typing import List
-def generate_summary(content:str,skills:List[str]):
+async def generate_summary(content:str,skills:List[str]):
     llm=Ollama(model="llama2")
     prompt_template='''
     Analyze the following resume and provide a concise summary:

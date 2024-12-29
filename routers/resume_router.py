@@ -6,8 +6,8 @@ from fastapi import APIRouter
 from fastapi import status
 from PyPDF2 import PdfReader
 from database import resume_collection,skills_collection
+from llm import generate_summary
 from schemas import Resume
-import langchain
 import boto3
 router=APIRouter()
 dotenv.load_dotenv()
@@ -29,10 +29,10 @@ async def upload_resume(file: UploadFile=File(...),candidate_name: Optional[str]
         predefined_skills = await skills_collection.find().to_list()
         predefined_skills = predefined_skills[0]['skills']
         skills=[i for i in predefined_skills if i in content]
-        print(content,skills)
         obj= await resume_collection.find({"file_name":file.filename}).to_list()
         if not obj:
-            obj=Resume(file_name=file.filename,skills=skills).dict()
+            summary=await generate_summary(content,skills)
+            obj=Resume(file_name=file.filename,skills=skills,summary=summary).dict()
             await resume_collection.insert_one(obj)
             client.upload_fileobj(file.file,BUCKET_NAME,file.filename)
             return "uploaded Successfully",status.HTTP_201_CREATED
@@ -49,5 +49,16 @@ async def fetch_resume(file_name:str):
             ExpiresIn=6900
         )
         return url
+    except Exception as e:
+        return {"error":str(e)}
+@router.get("/all_resume")
+async def all_resume():
+    try:
+        resumes=[]
+        response=await resume_collection.find().to_list()
+        if response:
+            for data in response:
+                resumes.append(data['file_name'])
+        return {'resumes':resumes,"status":status.HTTP_200_OK}
     except Exception as e:
         return {"error":str(e)}
