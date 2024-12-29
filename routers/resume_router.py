@@ -29,6 +29,7 @@ async def upload_resume(file: UploadFile=File(...),candidate_name: Optional[str]
         predefined_skills = await skills_collection.find().to_list()
         predefined_skills = predefined_skills[0]['skills']
         skills=[i for i in predefined_skills if i in content]
+        print(content,skills)
         obj= await resume_collection.find({"file_name":file.filename}).to_list()
         if not obj:
             obj=Resume(file_name=file.filename,skills=skills).dict()
