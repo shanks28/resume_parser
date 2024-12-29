@@ -4,9 +4,8 @@ from fastapi import File,UploadFile
 from typing import Optional
 class Resume(BaseModel): # uploaded by user
     file_name: str
-    parsed_text:str
     skills: List[str]
-    summary: str
+    summary: Optional[str]=None
 class JD(BaseModel): # posted my companies
     job_title: str
     company:str

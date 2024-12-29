@@ -5,3 +5,4 @@ db=client.parser# creating db
 resume_collection=db.resume
 jd_collection=db.jd
 matches_collection=db.matches
+skills_collection=db.skills
