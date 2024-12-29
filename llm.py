@@ -23,4 +23,4 @@ async def generate_summary(content:str,skills:List[str]):
     return summary
 if __name__=="__main__":
     print(generate_summary(content="""""",
-                     skills=[]
+                     skills=[]))
