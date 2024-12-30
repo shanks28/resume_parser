@@ -21,6 +21,8 @@ async def generate_summary(content:str,skills:List[str]):
     chain=LLMChain(llm=llm,prompt=prompt)
     summary=chain.run(resume_text=content,skills=skills)
     return summary
+async def get_match(summary:str,jd_summary:str):
+    pass
 if __name__=="__main__":
     print(generate_summary(content="""""",
                      skills=[]))
