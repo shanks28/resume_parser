@@ -15,9 +15,8 @@ class MatchRequest(BaseModel):
     resume_id: str
     job_id: str
 class MatchResponse(BaseModel):
-    id: str
     resume_id:str
     job_id:str
     match_score: float
-    suggestions:List[str]
+    suggestions: str
 

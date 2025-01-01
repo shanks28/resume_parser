@@ -40,7 +40,7 @@ async def upload_resume(file: UploadFile=File(...),candidate_name: Optional[str]
     except Exception as e:
         print(e)
         return {"error":str(e)}
-@router.get("/get/{file_name}")
+@router.get("/get_file/{file_name}")
 async def fetch_resume(file_name:str):
     try:
         url=client.generate_presigned_url(
@@ -60,5 +60,14 @@ async def all_resume():
             for data in response:
                 resumes.append(data['file_name'])
         return {'resumes':resumes,"status":status.HTTP_200_OK}
+    except Exception as e:
+        return {"error":str(e)}
+@router.get("/get/{file_name}")
+async def fetch_resume_by_name(file_name:str):
+    try:
+        obj=await resume_collection.find_one({"file_name":file_name})
+        if not obj:
+            return {"Message":"No such resume"}
+        return obj['summary'],status.HTTP_200_OK
     except Exception as e:
         return {"error":str(e)}
