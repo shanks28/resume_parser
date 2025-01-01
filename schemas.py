@@ -12,11 +12,11 @@ class JD(BaseModel): # posted my companies
     job_description: str
     required_skills: List[str]
 class MatchRequest(BaseModel):
-    resume_id: str
+    resume_name: str
     job_id: str
 class MatchResponse(BaseModel):
-    resume_id:str
+    resume_name:str
     job_id:str
-    match_score: float
+    match_score: str
     suggestions: str
 

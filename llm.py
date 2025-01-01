@@ -1,8 +1,6 @@
 from langchain_community.llms import Ollama
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import TfidfVectorizer
 from typing import List
 llm = Ollama(model="llama2")
 
@@ -23,10 +21,16 @@ async def generate_summary(content:str,skills:List[str])->str:
     chain=LLMChain(llm=llm,prompt=prompt)
     summary=chain.run(resume_text=content,skills=skills)
     return summary
-def get_match(summary:str,jd_summary)->str:
-    template="""Give me only a match score number and suggest a few short improvements for the the following JD and the Following resume summary.Use Depp contexts
-    {JD}:
-    {resume_summary}:"""
+async def get_match(summary:str,jd_summary)->str:
+    template="""
+    Compare the following resume and job description:
+    Resume: {resume_summary}
+    Job Description: {JD}
+    
+    Provide your response in the following format:
+    Match Score: [score]
+    Suggestions: [suggestions]
+            """
     prompt=PromptTemplate(
         input_variables=['JD',"resume_summary"],
         template=template
