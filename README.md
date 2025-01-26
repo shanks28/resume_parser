@@ -65,6 +65,9 @@ This project uses GitHub Actions for continuous integration and deployment. Ever
 - Builds and tests the Docker image.
 - Pushes the updated image to Docker Hub.
 
+## System Design
+![image](https://github.com/user-attachments/assets/90d8aff7-161b-4801-98c2-7a53c7efd214)
+
 
 
 ## Future Improvements
